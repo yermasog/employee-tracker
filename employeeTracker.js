@@ -71,6 +71,14 @@ function viewDatabase() {
   });
 }
 
+function viewDepartments() {
+  connection.query("SELECT * FROM departments", function(err, res) {
+    if (err) throw err;
+    console.log(res);
+    connection.end();
+  });
+}
+
 // * Add departments, roles, employees
 function addData() {
 
