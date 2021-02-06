@@ -38,9 +38,9 @@ function mainMenu() {
       else if (answer.userAction === "Add to the database") {
         addtoDatabase();
       }
-      // else if (answer.userAction === "Update the database") {
-      //   updateData();
-      // } 
+      else if (answer.userAction === "Update the database") {
+        updateData();
+      } 
       else {
         connection.end();
       }
@@ -108,15 +108,19 @@ function addDepartment() {
         message: "Enter the name of the department you want to add",
       })
     .then(function (answer) {
-      connection.query(
-        "INSERT INTO department SET ?",
-        {
-          name: answer.name,
-        },
+      let name = answer.addDept
+      let sql = `INSERT INTO department (name)
+                  VALUES('${name}')`
+      connection.query( sql,
+        // "INSERT INTO department SET?",
+        // {
+        //   id: id,
+        //   name: answer.name,
+        // },
         function (err) {
           if (err) throw err;
           console.log("Your department as been added!");
-          connection.end();
+          // connection.end();
           mainMenu();
         }
       );
