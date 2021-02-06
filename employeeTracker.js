@@ -40,7 +40,7 @@ function mainMenu() {
       }
       else if (answer.userAction === "Update the database") {
         updateData();
-      } 
+      }
       else {
         connection.end();
       }
@@ -89,9 +89,9 @@ function addtoDatabase() {
       else if (answer.addChoice === "role") {
         addRole();
       }
-      // else if (answer.addChoice === "employee") {
-      //   bidAuction();
-      // } 
+      else if (answer.addChoice === "employee") {
+        addEmployee();
+      } 
       else {
         connection.end();
       }
@@ -103,12 +103,12 @@ function addtoDatabase() {
 function addDepartment() {
   inquirer
     .prompt({
-        name: "addDept",
-        type: "input",
-        message: "Enter the name of the department you want to add",
-      })
+      name: "addDept",
+      type: "input",
+      message: "Enter the name of the department you want to add",
+    })
     .then(function (answer) {
-      connection.query( 
+      connection.query(
         "INSERT INTO department SET?",
         {
           name: answer.addDept,
@@ -126,7 +126,7 @@ function addDepartment() {
 function addRole() {
   inquirer
     .prompt(
-      {
+      [{
         name: "roleTitle",
         type: "input",
         message: "Enter the name of the role you want to add",
@@ -141,18 +141,61 @@ function addRole() {
         type: "number",
         message: "Enter the department id",
       },
-      )
+      ])
     .then(function (answer) {
-      connection.query( 
+      connection.query(
         "INSERT INTO role SET?",
         {
           title: answer.roleTitle,
           salary: answer.salary,
-          deartment_id: answer.departmentId
+          department_id: answer.departmentId
         },
         function (err) {
           if (err) throw err;
           console.log("Your role as been added!");
+          // connection.end();
+          mainMenu();
+        }
+      );
+    });
+}
+
+function addEmployee() {
+  inquirer
+    .prompt(
+      [{
+        name: "first_name",
+        type: "input",
+        message: "Enter the employee's first name",
+      },
+      {
+        name: "last_name",
+        type: "input",
+        message: "Enter the employee's last name",
+      },
+      {
+        name: "role_id",
+        type: "number",
+        message: "Enter the role id",
+      },
+      {
+        name: "manager_id",
+        type: "number",
+        message: "Enter the manager id",
+      }
+      ])
+    .then(function (answer) {
+      connection.query(
+        "INSERT INTO employee SET?",
+        {
+          first_name: answer.first_name,
+          last_name: answer.last_name,
+          role_id: answer.role_id,
+          manager_id: answer.manager_id
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your employee as been added!");
           // connection.end();
           mainMenu();
         }
