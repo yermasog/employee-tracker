@@ -48,7 +48,27 @@ function mainMenu() {
 
 // * View departments, roles, employees
 function viewDatabase() {
-
+  inquirer
+  .prompt({
+    name: "viewChoice",
+    type: "list",
+    message: "What would you like to view?",
+    choices: ["departments", "roles", "employees", "Exit"]
+  })
+  .then(function (answer) {
+    // based on their answer, either call the bid or the post functions
+    if (answer.viewChoice === "departments") {
+      viewDepartments();
+    }
+    else if (answer.viewChoice === "roles") {
+      viewRoles();
+    }
+    else if (answer.viewChoice === "employees") {
+      viewEmployees();
+    } else {
+      connection.end();
+    }
+  });
 }
 
 // * Add departments, roles, employees
@@ -57,5 +77,5 @@ function addData() {
 }
 // * Update employee roles
 function updateData() {
-  
+
 }
