@@ -68,6 +68,7 @@ function viewData(viewChoice) {
     if (err) throw err;
     console.table(res);
     connection.end();
+    mainMenu()
   });
 }
 
@@ -83,34 +84,45 @@ function addtoDatabase() {
     .then(function (answer) {
       // based on their answer, add to the corresponding table
       if (answer.addChoice === "department") {
-        postAuction();
+        addDepartment();
       }
-      else if (answer.addChoice === "role") {
-        bidAuction();
-      } 
-      else if (answer.addChoice === "employee") {
-        bidAuction();
-      }else {
+      // else if (answer.addChoice === "role") {
+      //   bidAuction();
+      // }
+      // else if (answer.addChoice === "employee") {
+      //   bidAuction();
+      // } 
+      else {
         connection.end();
       }
     }
-    
-  );
+
+    );
 }
 
-connection.query(
-  "INSERT INTO department SET ?",
-  {
-    id: answer.item,
-    name: answer.category,
-  },
-  function (err) {
-    if (err) throw err;
-    console.log("Your auction was created successfully!");
-    // re-prompt the user for if they want to bid or post
-    start();
-  }
-);
+function addDepartment() {
+  inquirer
+    .prompt({
+        name: "addDept",
+        type: "input",
+        message: "Enter the name of the department you want to add",
+      })
+    .then(function (answer) {
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          name: answer.name,
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your department as been added!");
+          connection.end();
+          mainMenu();
+        }
+      );
+    });
+}
+
 // // * Update employee roles
 // function updateData() {
 
