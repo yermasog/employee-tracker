@@ -86,9 +86,9 @@ function addtoDatabase() {
       if (answer.addChoice === "department") {
         addDepartment();
       }
-      // else if (answer.addChoice === "role") {
-      //   bidAuction();
-      // }
+      else if (answer.addChoice === "role") {
+        addRole();
+      }
       // else if (answer.addChoice === "employee") {
       //   bidAuction();
       // } 
@@ -108,15 +108,11 @@ function addDepartment() {
         message: "Enter the name of the department you want to add",
       })
     .then(function (answer) {
-      let name = answer.addDept
-      let sql = `INSERT INTO department (name)
-                  VALUES('${name}')`
-      connection.query( sql,
-        // "INSERT INTO department SET?",
-        // {
-        //   id: id,
-        //   name: answer.name,
-        // },
+      connection.query( 
+        "INSERT INTO department SET?",
+        {
+          name: answer.addDept,
+        },
         function (err) {
           if (err) throw err;
           console.log("Your department as been added!");
@@ -127,7 +123,44 @@ function addDepartment() {
     });
 }
 
-// // * Update employee roles
-// function updateData() {
+function addRole() {
+  inquirer
+    .prompt(
+      {
+        name: "roleTitle",
+        type: "input",
+        message: "Enter the name of the role you want to add",
+      },
+      {
+        name: "salary",
+        type: "number",
+        message: "Enter the salary",
+      },
+      {
+        name: "departmentId",
+        type: "number",
+        message: "Enter the department id",
+      },
+      )
+    .then(function (answer) {
+      connection.query( 
+        "INSERT INTO role SET?",
+        {
+          title: answer.roleTitle,
+          salary: answer.salary,
+          deartment_id: answer.departmentId
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your role as been added!");
+          // connection.end();
+          mainMenu();
+        }
+      );
+    });
+}
 
-// }
+// // * Update employee roles
+function updateData() {
+
+}
