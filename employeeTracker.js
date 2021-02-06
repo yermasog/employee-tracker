@@ -35,12 +35,13 @@ function mainMenu() {
       if (answer.userAction === "View the database") {
         viewDatabase();
       }
-      else if (answer.userAction === "Add to the database") {
-        addData();
-      }
-      else if (answer.userAction === "Update the database") {
-        updateData();
-      } else {
+      // else if (answer.userAction === "Add to the database") {
+      //   addData();
+      // }
+      // else if (answer.userAction === "Update the database") {
+      //   updateData();
+      // } 
+      else {
         connection.end();
       }
     });
@@ -53,37 +54,28 @@ function viewDatabase() {
     name: "viewChoice",
     type: "list",
     message: "What would you like to view?",
-    choices: ["departments", "roles", "employees", "Exit"]
+    choices: ["department", "role", "employee", "Exit"]
   })
   .then(function (answer) {
     // based on their answer, either call the bid or the post functions
-    if (answer.viewChoice === "departments") {
-      viewDepartments();
-    }
-    else if (answer.viewChoice === "roles") {
-      viewRoles();
-    }
-    else if (answer.viewChoice === "employees") {
-      viewEmployees();
-    } else {
-      connection.end();
-    }
+    let viewChoice = answer.viewChoice;
+    viewData(viewChoice)
   });
 }
 
-function viewDepartments() {
-  connection.query("SELECT * FROM departments", function(err, res) {
+function viewData(viewChoice) {
+  connection.query(`SELECT * FROM ${viewChoice}`, function(err, res) {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     connection.end();
   });
 }
 
 // * Add departments, roles, employees
-function addData() {
+// function addData() {
 
-}
-// * Update employee roles
-function updateData() {
+// }
+// // * Update employee roles
+// function updateData() {
 
-}
+// }
