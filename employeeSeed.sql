@@ -8,125 +8,123 @@ USE employee_tracker_db;
 
 -- Creates the table  department" within employee_tracker_db --
 CREATE TABLE department (
-  id INTEGER(11) PRIMARY KEY, 
+  id INTEGER(11) PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(30) NOT NULL
 );
+ALTER table department auto_increment=101;
 
 INSERT INTO department (id, name)
-VALUES (101, "administration");
+VALUES (id, "administration");
 
 INSERT INTO department (id, name)
-VALUES (102, "sales");
+VALUES (id, "sales");
 
 INSERT INTO department (id, name)
-VALUES (103, "accounting");
+VALUES (id, "accounting");
 
 INSERT INTO department (id, name)
-VALUES (104, "customer service");
+VALUES (id, "customer service");
 
 INSERT INTO department (id, name)
-VALUES (105, "warehouse");
+VALUES (id, "warehouse");
 
 select * from department;
 
 CREATE TABLE role (
-  id INTEGER(11) PRIMARY KEY, 
+  id INTEGER(11) PRIMARY KEY AUTO_INCREMENT, 
   title VARCHAR(30),
   salary DECIMAL(6,0),
   department_id INTEGER(11)
 );
 
-INSERT INTO role (id, title, salary, department_id)
-VALUES ("201", "receptionist", 50000, 101);
+ALTER table role auto_increment=501;
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("206", "human resources", 50000, 101);
+VALUES (id, "receptionist", 50000, 101);
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("202", "accountant", 50000, 103);
+VALUES (id, "human resources", 50000, 101);
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("203", "customer service rep", 50000, 104);
+VALUES (id, "accountant", 50000, 103);
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("207", "quality assurance", 50000, 104);
+VALUES (id, "customer service rep", 50000, 104);
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("204", "sales rep", 60000, 102);
+VALUES (id, "quality assurance", 50000, 104);
 
 INSERT INTO role (id, title, salary, department_id)
-VALUES ("205", "delivery", 50000, 105);
+VALUES (id, "sales rep", 60000, 102);
+
+INSERT INTO role (id, title, salary, department_id)
+VALUES (id, "delivery", 50000, 105);
 
 select * from role;
 
 CREATE TABLE employee (
-  id INTEGER(11) PRIMARY KEY, 
+  id INTEGER(11) PRIMARY KEY auto_increment, 
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INTEGER(11),
   manager_id INTEGER(11)
 );
--- Michael 999 --
--- Angela 888 --
--- Darryl 777 ---
-
--- Creates new rows containing data in all named columns --
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (999, "Michael", "Scott", 204, null);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (741, "Dwight", "Schrute", 204, 999);
+VALUES (id, "Michael", "Scott", 506, null);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (456, "Jim", "Halpert", 204, 999);
+VALUES (id, "Dwight", "Schrute", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (321, "Andy", "Bernard", 204, 999);
+VALUES (id, "Jim", "Halpert", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (369, "Stanley", "Hudson", 204, 999);
+VALUES (id, "Andy", "Bernard", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (852, "Phyllis", "Vance", 204, 999);
+VALUES (id, "Stanley", "Hudson", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (821, "Ryan", "Howard", 204, 999);
+VALUES (id, "Phyllis", "Vance", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (888, "Angela", "Martin", 202, null);
+VALUES (id, "Ryan", "Howard", 506, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (159, "Oscar", "Martinez", 202, 888);
+VALUES (id, "Angela", "Martin", 510, null);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (123, "Kevin", "Malone", 202, 888);
+VALUES (id, "Oscar", "Martinez", 510, 8);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (777, "Darryl", "Philbin", 205, null);
+VALUES (id, "Kevin", "Malone", 510, 8);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (357, "Glen", "X", 205, 777);
+VALUES (id, "Darryl", "Philbin", 514, null);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (486, "Lonny", "Collins", 205, 777);
+VALUES (id, "Glen", "X", 514, 11);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (258, "Madge", "Madsen", 205, 777);
+VALUES (id, "Lonny", "Collins", 514, 11);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (951, "Kelly", "Kapoor", 203, 999);
+VALUES (id, "Madge", "Madsen", 514, 11);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (526, "Meredith", "Palmer", 203, 999);
+VALUES (id, "Kelly", "Kapoor", 511, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (788, "Creed", "Bratton", 207, 999);
+VALUES (id, "Meredith", "Palmer", 511, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (294, "Pam", "Beesly", 201, 999);
+VALUES (id, "Creed", "Bratton", 512, 1);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES (666, "Toby", "Flenderson", 206, 999);
+VALUES (id, "Pam", "Beesly", 508, 1);
+
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
+VALUES (id, "Toby", "Flenderson", 509, 1);
 
 select * from employee
-
