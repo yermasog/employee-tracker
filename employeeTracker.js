@@ -31,7 +31,7 @@ function mainMenu() {
       choices: ["View the database", "Add to the database", "Update the database", "Exit"]
     })
     .then(function (answer) {
-      // based on their answer, either call the bid or the post functions
+      // based on their answer, call the appropriate function
       if (answer.userAction === "View the database") {
         viewDatabase();
       }
@@ -59,7 +59,11 @@ function viewDatabase() {
     .then(function (answer) {
       // based on their answer, display the corresponding table
       let viewChoice = answer.viewChoice;
-      viewData(viewChoice)
+      if (viewChoice === "Exit") {
+        mainMenu()
+      } else (
+        viewData(viewChoice)
+      )
     });
 }
 
@@ -67,7 +71,6 @@ function viewData(viewChoice) {
   connection.query(`SELECT * FROM ${viewChoice}`, function (err, res) {
     if (err) throw err;
     console.table(res);
-    connection.end();
     mainMenu()
   });
 }
@@ -93,7 +96,7 @@ function addtoDatabase() {
         addEmployee();
       } 
       else {
-        connection.end();
+        mainMenu();
       }
     }
 
@@ -116,7 +119,6 @@ function addDepartment() {
         function (err) {
           if (err) throw err;
           console.log("Your department as been added!");
-          // connection.end();
           mainMenu();
         }
       );
@@ -153,7 +155,6 @@ function addRole() {
         function (err) {
           if (err) throw err;
           console.log("Your role as been added!");
-          // connection.end();
           mainMenu();
         }
       );
@@ -196,7 +197,6 @@ function addEmployee() {
         function (err) {
           if (err) throw err;
           console.log("Your employee as been added!");
-          // connection.end();
           mainMenu();
         }
       );
@@ -205,16 +205,17 @@ function addEmployee() {
 
 // // * Update employee roles
 function updateData() {
-  // query the database for all items being auctioned
+  // query the database for all employees
   connection.query("SELECT * FROM employee", function(err, results) {
     if (err) throw err;
-    // once you have the items, prompt the user for which employee they would like to update
+    // once you have the employees, prompt the user for which employee they would like to update
     inquirer
       .prompt([
         {
           name: "employee",
           type: "rawlist",
           choices: function() {
+            //employees are pushed into an array to display all employees
             var employeeArray = [];
             for (var i = 0; i < results.length; i++) {
               employeeArray.push(results[i].first_name);
