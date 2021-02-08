@@ -205,5 +205,54 @@ function addEmployee() {
 
 // // * Update employee roles
 function updateData() {
-
+  // query the database for all items being auctioned
+  connection.query("SELECT * FROM employee", function(err, results) {
+    if (err) throw err;
+    // once you have the items, prompt the user for which employee they would like to update
+    inquirer
+      .prompt([
+        {
+          name: "employee",
+          type: "rawlist",
+          choices: function() {
+            var employeeArray = [];
+            for (var i = 0; i < results.length; i++) {
+              employeeArray.push(results[i].first_name);
+            }
+            return employeeArray;
+          },
+          message: "Which employee would you like to update?"
+        },
+        {
+          name: "employeeRole",
+          type: "number",
+          message: "Please update the employee role"
+        }
+      ])
+      .then(function(answer) {
+        // get the information of the chosen employee
+        var newRole;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i].first_name === answer.employee) {
+            newRole = results[i];
+          }
+        }
+          connection.query(
+            "UPDATE employee SET ? WHERE ?",
+            [
+              {
+                role_id: parseInt(answer.employeeRole)
+              },
+              {
+                id: newRole.id
+              }
+            ],
+            function(error) {
+              if (error) throw err;
+              console.log("Employee updated successfully!");
+              mainMenu();
+            }
+          );
+      });
+  });
 }
