@@ -127,4 +127,26 @@ VALUES (id, "Pam", "Beesly", 508, 1);
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES (id, "Toby", "Flenderson", 509, 1);
 
-select * from employee
+select * from employee;
+
+CREATE TABLE manager (
+  id INTEGER(11) PRIMARY KEY,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30) NOT NULL
+);
+
+INSERT INTO manager (id, first_name, last_name)
+VALUES (1, "Michael", "Scott");
+
+INSERT INTO manager (id, first_name, last_name)
+VALUES (8, "Angela", "Martin");
+
+INSERT INTO manager (id, first_name, last_name)
+VALUES (11, "Darryl", "Philbin");
+
+select * from manager;
+
+SELECT employee.first_name, employee.last_name, manager.first_name, manager.last_name
+FROM employee
+RIGHT JOIN manager ON employee.manager_id=manager.id
+
