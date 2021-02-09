@@ -54,21 +54,49 @@ function viewDatabase() {
       name: "viewChoice",
       type: "list",
       message: "What would you like to view?",
-      choices: ["department", "role", "employee", "Exit"]
+      choices: ["department", "role", "employee", "employee by manager", "Exit"]
     })
     .then(function (answer) {
       // based on their answer, display the corresponding table
       let viewChoice = answer.viewChoice;
-      if (viewChoice === "Exit") {
-        mainMenu()
-      } else (
-        viewData(viewChoice)
-      )
+      switch (viewChoice) {
+        case viewChoice = "department":
+          viewData(viewChoice)
+          break;
+        case viewChoice = "role":
+          viewData(viewChoice)
+          break;
+        case viewChoice = "employee":
+          viewData(viewChoice)
+          break;
+        case viewChoice = "employee by manager":
+          viewEmployeeByManager()
+          break;
+        default:
+          mainMenu()
+      }
+      // if (viewChoice === "Exit") {
+      //   mainMenu()
+      // } else (
+      //   viewData(viewChoice)
+      // )
     });
 }
 
 function viewData(viewChoice) {
   connection.query(`SELECT * FROM ${viewChoice}`, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    mainMenu()
+  });
+}
+
+function viewEmployeeByManager() {
+  // SELECT employee.first_name, employee.last_name, manager.first_name, manager.last_name
+  // FROM employee
+  // RIGHT JOIN manager ON employee.manager_id=manager.id
+  var query = "SELECT employee.first_name AS employee, manager.first_name AS manager FROM employee RIGHT JOIN manager ON employee.manager_id=manager.id";
+  connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
     mainMenu()
@@ -94,7 +122,7 @@ function addtoDatabase() {
       }
       else if (answer.addChoice === "employee") {
         addEmployee();
-      } 
+      }
       else {
         mainMenu();
       }
@@ -206,7 +234,7 @@ function addEmployee() {
 // // * Update employee roles
 function updateData() {
   // query the database for all employees
-  connection.query("SELECT * FROM employee", function(err, results) {
+  connection.query("SELECT * FROM employee", function (err, results) {
     if (err) throw err;
     // once you have the employees, prompt the user for which employee they would like to update
     inquirer
@@ -214,7 +242,7 @@ function updateData() {
         {
           name: "employee",
           type: "rawlist",
-          choices: function() {
+          choices: function () {
             //employees are pushed into an array to display all employees
             var employeeArray = [];
             for (var i = 0; i < results.length; i++) {
@@ -230,7 +258,7 @@ function updateData() {
           message: "Please update the employee role"
         }
       ])
-      .then(function(answer) {
+      .then(function (answer) {
         // get the information of the chosen employee
         var newRole;
         for (var i = 0; i < results.length; i++) {
@@ -238,22 +266,23 @@ function updateData() {
             newRole = results[i];
           }
         }
-          connection.query(
-            "UPDATE employee SET ? WHERE ?",
-            [
-              {
-                role_id: parseInt(answer.employeeRole)
-              },
-              {
-                id: newRole.id
-              }
-            ],
-            function(error) {
-              if (error) throw err;
-              console.log("Employee updated successfully!");
-              mainMenu();
+        connection.query(
+          "UPDATE employee SET ? WHERE ?",
+          [
+            {
+              role_id: parseInt(answer.employeeRole)
+            },
+            {
+              id: newRole.id
             }
-          );
+          ],
+          function (error) {
+            if (error) throw err;
+            console.log("Employee updated successfully!");
+            mainMenu();
+          }
+        );
       });
   });
 }
+
